@@ -1,3 +1,48 @@
+// Basic Router Setup
+window.addEventListener("popstate", (event) => {
+  loadPage(location.pathname);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPage(window.location.pathname);
+});
+
+function navigateTo(path) {
+  history.pushState({}, path, window.location.origin + path);
+  loadPage(path);
+}
+
+function loadPage(path) {
+  if (path === "/") {
+    showHomePage();
+  } else if (path === "/feed") {
+    showFeedPage();
+  }
+}
+
+// Initial page load
+loadPage(window.location.pathname);
+
+function showHomePage() {
+  document.body.innerHTML = `
+    <div>
+      <h1>Welcome to the Home Page</h1>
+      <button id="navigateToFeed">Go to Feed</button>
+    </div>
+  `;
+
+  document.getElementById("navigateToFeed").addEventListener("click", () => {
+    navigateTo("/feed");
+  });
+}
+
+function showFeedPage() {
+  document.body.innerHTML = `<div class="container"></div>`; // You can keep your existing carousel HTML structure here.
+
+  // Call the function that sets up the carousel (the existing app logic)
+  main();
+}
+
 async function main() {
   let cardData;
 
@@ -234,4 +279,4 @@ async function main() {
   document.getElementById("undoButton").addEventListener("click", undoSlide);
 }
 
-main();
+// main();
