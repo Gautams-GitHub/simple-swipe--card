@@ -1,4 +1,6 @@
 // Basic Router Setup
+console.log(location.pathname);
+
 window.addEventListener("popstate", (event) => {
   loadPage(location.pathname);
 });
@@ -20,6 +22,8 @@ function navigateTo(path) {
 }
 
 function loadPage(path) {
+  console.log({ path });
+
   if (path === "/") {
     showHomePage();
   } else if (path === "/feed") {
