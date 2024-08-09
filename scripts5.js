@@ -3,6 +3,13 @@ window.addEventListener("popstate", (event) => {
   loadPage(location.pathname);
 });
 
+window.addEventListener("load", (event) => {
+  loadPage(location.pathname);
+});
+window.addEventListener("hashchange", (event) => {
+  loadPage(location.pathname);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   loadPage(window.location.pathname);
 });
