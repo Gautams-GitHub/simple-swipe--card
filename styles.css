@@ -14,6 +14,14 @@ body {
   user-select: none;
 }
 
+img {
+  max-width: 375px; /* Maximum width */
+  max-height: 200px; /* Maximum height */
+  width: auto; /* Allow width to adjust */
+  height: auto; /* Allow height to adjust */
+  display: block; /* Prevents inline spacing issues */
+}
+
 .container {
   display: flex;
   flex-direction: row-reverse;
@@ -100,7 +108,7 @@ body {
 
 .cardImage {
   width: 100%;
-  height: 30%;
+  /* height: 30%; */
 }
 
 .cardTitle {
@@ -186,5 +194,31 @@ body {
   }
   50% {
     transform: translateX(20%);
+  }
+}
+
+.loading {
+  background-image: linear-gradient(
+    90deg,
+    rgb(216, 215, 215),
+    rgb(253, 243, 243),
+    #23ffa7,
+    #a0ffd9
+  );
+  background-size: 1000%;
+  background-position: right;
+  border-radius: 20px;
+  width: 150px;
+  height: 15px;
+  animation: sweep 5s ease-in-out infinite alternate;
+  box-shadow: 0 0 6px 0 #a3a3a331;
+}
+
+@keyframes sweep {
+  0% {
+    background-position: right;
+  }
+  100% {
+    background-position: left;
   }
 }

@@ -1,65 +1,92 @@
-// Basic Router Setup
-console.log(location.pathname);
+// // Basic Router Setup
+// console.log(location.pathname);
 
-window.addEventListener("popstate", (event) => {
-  loadPage(location.pathname);
-});
+// window.addEventListener("popstate", (event) => {
+//   loadPage(location.pathname);
+// });
 
-window.addEventListener("load", (event) => {
-  loadPage(location.pathname);
-});
-window.addEventListener("hashchange", (event) => {
-  loadPage(location.pathname);
-});
+// window.addEventListener("load", (event) => {
+//   loadPage(location.pathname);
+// });
+// window.addEventListener("hashchange", (event) => {
+//   loadPage(location.pathname);
+// });
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadPage(window.location.pathname);
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//   loadPage(window.location.pathname);
+// });
 
-function navigateTo(path) {
-  history.pushState({}, path, window.location.origin + path);
-  loadPage(path);
-}
+// function navigateTo(path) {
+//   history.pushState({}, path, window.location.origin + path);
+//   loadPage(path);
+// }
 
-function loadPage(path) {
-  console.log({ path });
+// function loadPage(path) {
+//   console.log({ path });
 
-  if (path === "/") {
-    showHomePage();
-  } else if (path === "/feed") {
-    showFeedPage();
-  }
-}
+//   if (path === "/") {
+//     showHomePage();
+//   } else if (path === "/feed") {
+//     showFeedPage();
+//   }
+// }
 
-// Initial page load
-loadPage(window.location.pathname);
+// // Initial page load
+// loadPage(window.location.pathname);
 
-function showHomePage() {
-  document.body.innerHTML = `
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <button id="navigateToFeed">Go to Feed</button>
-    </div>
-  `;
+// function showHomePage() {
+//   document.body.innerHTML = `
+//     <div>
+//       <h1>Welcome to the Home Page</h1>
+//       <button id="navigateToFeed">Go to Feed</button>
+//     </div>
+//   `;
 
-  document.getElementById("navigateToFeed").addEventListener("click", () => {
-    navigateTo("/feed");
-  });
-}
+//   document.getElementById("navigateToFeed").addEventListener("click", () => {
+//     navigateTo("/feed");
+//   });
+// }
 
-function showFeedPage() {
-  document.body.innerHTML = `<div class="container"></div>`; // You can keep your existing carousel HTML structure here.
+// function showFeedPage() {
+//   document.body.innerHTML = `<div class="container"></div>`; // You can keep your existing carousel HTML structure here.
 
-  // Call the function that sets up the carousel (the existing app logic)
-  main();
-}
+//   // Call the function that sets up the carousel (the existing app logic)
+//   main();
+// }
+
+const addSkeleton = () => {
+  document
+    .querySelectorAll(".cardImage, .cardTitle, .cardText")
+    .forEach((element) => {
+      element.classList.add("loading");
+    });
+};
+
+const removeSkeleton = () => {
+  document
+    .querySelectorAll(".cardImage, .cardTitle, .cardText")
+    .forEach((element) => {
+      element.classList.remove("loading");
+    });
+};
+
+// Assuming you want to apply skeleton loading before fetching data
+addSkeleton();
 
 async function main() {
-  let cardData;
+  let cardData = [
+    {
+      content: "This is the first slide",
+      title: "",
+      src: "",
+    },
+  ];
 
+  //
   const apiUrl =
     "https://script.google.com/macros/s/AKfycbzT5JmVCYCxnTKQwgAwRbCYHM7LHYmR8B6M_eLGqQCMKeAo4xIC6JqvdDHe0AH4oaAFSA/exec"; // Replace with your Google Apps Script web app URL
 
+  //
   try {
     const response = await fetch(apiUrl, {
       method: "GET", // or 'POST' if your API requires it
@@ -73,9 +100,10 @@ async function main() {
     }
 
     const jsonData = await response.json();
-    cardData = JSON.parse(jsonData);
+    cardDataFromAPI = JSON.parse(jsonData);
+    cardData = cardData.concat(cardDataFromAPI);
     console.log("Data for today:", cardData, "\n", typeof cardData);
-    cardData[cardData.length] = {
+    cardData[cardData.length + 1] = {
       content: "This is the last slide",
       title: "",
       src: "",
@@ -88,6 +116,7 @@ async function main() {
     //   console.log(`Content: ${item.content}`);
     //   console.log(`Source: ${item.src}`);
     // });
+    removeSkeleton();
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -95,6 +124,8 @@ async function main() {
   const containerClassElement = document.querySelector(".container");
 
   console.log({ cardData });
+
+  containerClassElement.innerHTML = "";
 
   cardData.map((item, index) => {
     const itemClassElement = document.createElement("div");
@@ -290,4 +321,4 @@ async function main() {
   document.getElementById("undoButton").addEventListener("click", undoSlide);
 }
 
-// main();
+main();

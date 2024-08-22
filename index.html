@@ -7,7 +7,19 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="container"></div>
+    <div class="container">
+      <div class="item active" style="z-index: 0; transform: none">
+        <div class="card">
+          <div class="cardTitle"></div>
+          <img class="cardImage" src="" alt="" />
+          <div class="cardText">This is the first slide</div>
+          <div class="indicator">⯇ SLIDE</div>
+        </div>
+      </div>
+      <div class="item next" style="z-index: -1">
+        <div class="card lastSlide">This is the last slide</div>
+      </div>
+    </div>
     <script src="scripts5.js"></script>
   </body>
 </html>
